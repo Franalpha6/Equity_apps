@@ -1,1 +1,47 @@
-https://www.transfernow.net/dl/20260701WgUjmfyh
+2026-06-30 22:43:16,507 | WARNING | 21 instrumento(s) en Parametria sin Moneda asignada (se conservan en Lista_Isins, pero NO se les aplicará conversión de FX): ['MPLE PE', 'BVL', 'CASAGRC1', 'ENTEL', 'FVI', 'FVI2', 'INREF', 'ISA', 'LAUR', 'MMG LTD', 'PAAS', 'PARAUCO', 'PTAL', 'RIO', 'RIPLEY', 'FALABELLA', 'THO', 'TV', 'TFPM', 'WPM', 'Cash']
+2026-06-30 22:46:34,457 | INFO    | DQ IN: última fecha en base = 2026-05-06 00:00:00
+2026-06-30 22:46:44,016 | INFO    | DQ SIS: última fecha en base = 2025-12-26 00:00:00
+Soles
+DOL
+GBP
+CAD
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:513: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in Precios_Con_Dividendos_R.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:536: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in Precios_Sin_Dividendos_R.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:671: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+See https://pandas.pydata.org/docs/user_guide/migration-3-strings.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
+  for column in df.select_dtypes(include='object').columns:
+C:\Users\p048546\AppData\Local\Temp\ipykernel_23264\1715200495.py:1465: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  df_final = pd.concat(df_exportar, axis=1)
+C:\Users\p048546\PyCharmMiscProject\.venv\Lib\site-packages\xlwings\conversion\pandas_conv.py:48: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  value = value.reset_index()
+2026-06-30 22:51:48,724 | INFO    | 'Z:\Mesa de Inversiones\Bottom-Up\5 Estrategia del Portafolio\Monitores\Rendimiento RVL\Rendimiento RVL.xlsm' guardado correctamente.
+2026-06-30 22:52:04,798 | INFO    | PDF completo generado: Z:\Mesa de Inversiones\Bottom-Up\5 Estrategia del Portafolio\Monitores\Rendimiento RVL\PDFs\Rendimiento RVL YTD.pdf
+2026-06-30 22:52:14,885 | INFO    | PDF reducido generado: Z:\Mesa de Inversiones\Bottom-Up\5 Estrategia del Portafolio\Monitores\Rendimiento RVL\PDFs\Rendimiento RVL YTD Reducido.pdf
