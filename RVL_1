@@ -1,1 +1,58 @@
-https://www.transfernow.net/dl/202607012R1jO05C
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+Cell In[2], line 424
+    420     df_BDTC = pl.read_excel(BDPrecios, sheet_name="BDTC", has_header=False, engine="calamine",
+    421                             read_options={"use_columns": "A:DB", "skip_rows": 0, "n_rows": 22000}).to_pandas()
+    422 except Exception:
+    423     log.exception("Fallo al leer '%s' (hoja BDTC).", BDPrecios)
+--> 424     raise
+    425 # %%
+    426 # Nuevos tc
+    427 lista_tc = ['Campo', 'Fecha', 'DOL', 'GBP', "CAD"]
+
+File ~\PyCharmMiscProject\.venv\Lib\site-packages\polars\_utils\deprecation.py:128, in deprecate_renamed_parameter.<locals>.decorate.<locals>.wrapper(*args, **kwargs)
+    123 @wraps(function)
+    124 def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
+    125     _rename_keyword_argument(
+    126         old_name, new_name, kwargs, function.__qualname__, version
+    127     )
+--> 128     return function(*args, **kwargs)
+
+File ~\PyCharmMiscProject\.venv\Lib\site-packages\polars\_utils\deprecation.py:128, in deprecate_renamed_parameter.<locals>.decorate.<locals>.wrapper(*args, **kwargs)
+    123 @wraps(function)
+    124 def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
+    125     _rename_keyword_argument(
+    126         old_name, new_name, kwargs, function.__qualname__, version
+    127     )
+--> 128     return function(*args, **kwargs)
+
+File ~\PyCharmMiscProject\.venv\Lib\site-packages\polars\io\spreadsheet\functions.py:402, in read_excel(source, sheet_id, sheet_name, table_name, engine, engine_options, read_options, has_header, columns, schema_overrides, infer_schema_length, include_file_paths, drop_empty_rows, drop_empty_cols, raise_if_empty)
+    240 @deprecate_renamed_parameter("xlsx2csv_options", "engine_options", version="0.20.6")
+    241 @deprecate_renamed_parameter("read_csv_options", "read_options", version="0.20.7")
+    242 def read_excel(
+   (...)    258     raise_if_empty: bool = True,
+    259 ) -> pl.DataFrame | dict[str, pl.DataFrame]:
+    260     """
+    261     Read Excel spreadsheet data into a DataFrame.
+    262 
+   (...)    400     ... )  # doctest: +SKIP
+    401     """
+--> 402     sources, read_multiple_workbooks = _sources(source)
+    403     frames: list[pl.DataFrame] | list[dict[str, pl.DataFrame]] = [  # type: ignore[assignment]
+    404         _read_spreadsheet(
+    405             src,
+   (...)    421         for src in sources
+    422     ]
+    423     return _unpack_read_results(
+    424         frames=frames,
+    425         read_multiple_workbooks=read_multiple_workbooks,
+    426     )
+
+File ~\PyCharmMiscProject\.venv\Lib\site-packages\polars\io\spreadsheet\functions.py:72, in _sources(source)
+     70     if not files:
+     71         msg = f"no workbook found at path {src!r}"
+---> 72         raise FileNotFoundError(msg)
+     73     read_multiple_workbooks = True
+     74 else:
+
+FileNotFoundError: no workbook found at path 'Z:\\Benchmarking\\BDPrecios_VB_IN.xlsm'
