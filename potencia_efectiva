@@ -1,0 +1,271 @@
+#%%
+# Parameters
+inicio = "042026"
+final = "052026"
+
+#%%
+import pandas as pd
+import numpy as np
+import re
+import datetime
+import os
+import re
+#%%
+# mes = 'Febrero'
+# anio = '2023'
+# mes_ = "fe"
+# meses_n = "02"
+# meses_ = "fe"
+#%%
+a1, a2, m1, m2 = inicio[2::], final[2::], inicio[0:2], final[0:2]
+rango_anios = range(int(a1),int(a2)+1)
+#%%
+meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre']
+meses_ = ['en','fe','ma','ab','my','jn','jl','ag','se','oc','no','di']
+meses_n = ['01','02','03','04','05','06','07','08','09','10','11','12']
+meses_m = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre']
+meses_cod=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre']
+
+#%% md
+### Generador de backups
+
+#%%
+import os
+import shutil
+
+source_file = r"Z:\Mesa de Inversiones\Bottom-Up\1 Proceso de Inversión Renta Variable\Proyecto Inputs Macro\Complementos BD\Utilities\Históricos\9. Potencias Firme y Efectiva.xlsx"
+destination_dir = r"Z:\Mesa de Inversiones\Bottom-Up\1 Proceso de Inversión Renta Variable\Proyecto Inputs Macro\Complementos BD\Utilities\Históricos\Backup"
+
+def copy_file_to_directory(source, des):
+    # Crear el directorio de destino si no existe
+    if not os.path.exists(des):
+        os.makedirs(des)
+    # Extraer el nombre del archivo de la ruta de origen
+    file_name = os.path.basename(source)
+    # Construir la ruta de destino completa
+    dest_file = os.path.join(des, file_name)
+    try:
+        # Copiar el archivo
+        shutil.copyfile(source, dest_file)
+        print(f"Archivo copiado exitosamente.")
+    except Exception as e:
+        print(f"Error al copiar el archivo: {str(e)}")
+
+copy_file_to_directory(source_file, destination_dir)
+#%% md
+### Establece cuales son los meses actualizar en base de los meses incluidos anteriormente. Esto tiene un output de una lista con el siguiente formato de fechas: mmyyyy
+#%%
+array_rutas = []
+for i in rango_anios:
+    if(rango_anios[-1]==i):
+        if (len(rango_anios)==1):
+            for j in range(int(m1),int(m2)+1):
+                if(len(str(j))==1):
+                    j = '0'+ str(j)
+                    
+                ruta = str(j) + str(i)
+                array_rutas.append(ruta)
+
+        else:
+            for j in range(1,int(m2)+1):
+                if(len(str(j))==1):
+                    j = '0' + str(j)
+                ruta = str(j) + str(i) 
+                array_rutas.append(ruta)
+                
+    elif(i != rango_anios[0]):
+        for j in range(1,13):
+            if(len(str(j))==1):
+                j = '0' + str(j)
+            ruta = str(j) + str(i)
+            array_rutas.append(ruta)
+        
+    else:
+        if (len(rango_anios)==1):
+            for j in range(int(m1),int(m2)+1):
+                if(len(str(j))==1):
+                    j = '0' + str(j)
+                ruta = str(j) + str(i)
+                array_rutas.append(ruta)
+
+        else:
+            for j in range(int(m1),13):
+                if(len(str(j))==1):
+                    j = '0' + str(j)
+                ruta = str(j) + str(i)
+                array_rutas.append(ruta)
+#%%
+import warnings
+warnings.filterwarnings("ignore")
+#%%
+def main(mes, anio):
+    archivo = r"Z:\Mesa de Inversiones\Bottom-Up\1 Proceso de Inversión Renta Variable\Proyecto Inputs Macro\Complementos BD\Utilities\BD\Reporte LVTP\\"  +mes +anio + ".xlsx"
+    File_found = False
+
+    for i in range (12,0, -1):
+        if os.path.isfile(archivo):
+            File_found=True
+            last_file = archivo
+            break
+    if not File_found:
+        print("Error Base: "+ mes + " " +anio)
+
+    sheet1 = pd.read_excel(archivo,"Datos",header=None) 
+    sheet2 = pd.read_excel(archivo,"C10",header=None) 
+
+    potencias=sheet1.copy()
+
+    primerafila=potencias[potencias[4]=="Empresa"].index[0]
+    ultimafila=potencias[potencias[7]=="TOTAL"].index[0]
+    potencias=potencias.iloc[primerafila+2:ultimafila+1,4:13]
+
+
+    potencias=potencias.set_axis(['Empresa','Orden','Vacio','Central','Unidad','Potencia Efectiva','Potencia Firme','Costo Variable','Unidad Forzada'],axis=1)
+    potencias=potencias[['Empresa','Central','Potencia Efectiva','Potencia Firme','Costo Variable']]
+    potencias=potencias.dropna(how='all')
+    potencias.loc[potencias['Central']=='TOTAL','Empresa']='TOTAL'
+
+    
+        ###### Diccionario
+    Diccionario = r'Z:\Mesa de Inversiones\Bottom-Up\1 Proceso de Inversión Renta Variable\Proyecto Inputs Macro\Complementos BD\Utilities\Diccionarios\Diccionario_Utilities.xlsx' 
+    df_ren = pd.read_excel(Diccionario, sheet_name="Utilities")
+    df_ren = df_ren.set_index("Nombre_Antiguo")
+    dic_ren = df_ren.to_dict()
+
+    def dic_renombre_cambio(fila):
+        try:
+            nom = dic_ren["Nombre_Nuevo"][fila]
+        except KeyError:
+            print(f"Nombre no encontrado: {fila}")
+            raise KeyError(f"Nombre no encontrado: {fila}")
+        return nom
+
+    potencias['Empresa'] = potencias['Empresa'].apply(dic_renombre_cambio)
+    potencias['Central'] = potencias['Central'].apply(dic_renombre_cambio)
+        #########
+
+    #Potencia Efectiva
+    Pot_Efect=potencias[['Empresa','Central','Potencia Efectiva']]
+    Pot_Efect['Potencia Efectiva']=Pot_Efect['Potencia Efectiva'].fillna(0)
+    Pot_Efect['Potencia Efectiva'] = Pot_Efect['Potencia Efectiva'].replace(
+        to_replace=r'.+', 
+        value=0,
+        regex=True
+    )
+    Pot_Efect = Pot_Efect.groupby(["Empresa","Central"],as_index=False).sum()
+    Pot_Efect.insert(0,"Tipo","POTENCIA EFECTIVA")
+    Pot_Efect=Pot_Efect.set_axis(['Tipo','Empresa','Central','Valor'],axis=1)
+
+    #Potencia firme
+    Pot_Firme=potencias[['Empresa','Central','Potencia Firme']]  
+    Pot_Firme['Potencia Firme']=Pot_Firme['Potencia Firme'].fillna(0)
+    Pot_Firme['Potencia Firme'] = Pot_Firme['Potencia Firme'].replace(
+        to_replace=r'.+', 
+        value=0,
+        regex=True
+    )
+    Pot_Firme = Pot_Firme.groupby(["Empresa","Central"],as_index=False).sum()
+    Pot_Firme.insert(0,"Tipo","POTENCIA FIRME")
+    Pot_Firme=Pot_Firme.set_axis(['Tipo','Empresa','Central','Valor'],axis=1)
+
+    Junto=pd.concat([Pot_Efect,Pot_Firme])
+    fecha_col = "01" + "/" + meses_n[meses_.index(mes_)] + "/" + anio
+    fecha_col = datetime.datetime.strptime(fecha_col, '%d/%m/%Y')
+    Junto.columns.values[3]=fecha_col
+    Key= Junto["Tipo"]+Junto["Empresa"]+Junto["Central"]
+    Junto.insert(0,"Key1",Key)
+
+    #Base total
+    Ruta_Base=r"Z:\Mesa de Inversiones\Bottom-Up\1 Proceso de Inversión Renta Variable\Proyecto Inputs Macro\Complementos BD\Utilities\Históricos\9. Potencias Firme y Efectiva.xlsx"
+    DF_F = Junto.copy()
+
+
+    with pd.ExcelFile(Ruta_Base) as writer:
+        BD_Total = writer.parse(sheet_name='Sheet1')
+
+    BD_Total_=BD_Total.copy()
+    BD_Total_['Indicador'] = 'Mapeado'
+    BD_Total_ = BD_Total_.set_index("Key1")
+    dic_Total_ = BD_Total_.to_dict()
+
+    DF_Total2 = DF_F.copy()
+    DF_Total2['Indicador'] =  DF_Total2['Key1'].map(dic_Total_['Indicador'])
+
+    DF_Total2 = DF_Total2.loc[DF_Total2['Indicador'].isin([np.nan])].sort_index(ignore_index=True) 
+    DF_Total2 = DF_Total2.drop(['Indicador'], axis=1)
+    BD_Total = pd.concat([BD_Total, DF_Total2])
+
+    DF_Total = DF_F.set_index("Key1")
+    dic_cr = DF_Total.to_dict()
+    fecha_col = '01' +'/'+ meses_n[meses_.index(mes_)] +'/'+ anio
+    fecha_col = datetime.datetime.strptime(fecha_col, '%d/%m/%Y')  
+    BD_Total[fecha_col] = BD_Total['Key1'].map(dic_cr[fecha_col])  
+
+    with pd.ExcelWriter(Ruta_Base ,  mode="a", engine="openpyxl",if_sheet_exists = 'replace') as writer:
+        BD_Total.to_excel(writer, sheet_name="Sheet1", index = False)
+#%%
+################################################################################
+#%%
+import warnings
+warnings.filterwarnings("ignore")
+#%%
+for i in array_rutas[::1]:
+    m = i[0:2]
+    mes = meses_n[int(m)-1]
+    anio = i[2::] 
+    mes_ = meses_[int(m)-1]
+    mes_cod1=meses_m[int(m)-1]
+    mes_cod=meses_cod[int(m)-1]
+    print(mes + ' ' + anio)
+    main(mes, anio)
+#%%
+
+
+
+
+
+ejecute el script de python de arriba y me salio un error en la consola: 
+---------------------------------------------------------------------------
+IndexError                                Traceback (most recent call last)
+File ~\PyCharmMiscProject\.venv\Lib\site-packages\pandas\core\indexes\range.py:1287, in RangeIndex.__getitem__(self, key)
+   1286 try:
+-> 1287     return self._range[new_key]
+   1288 except IndexError as err:
+
+IndexError: range object index out of range
+
+The above exception was the direct cause of the following exception:
+
+IndexError                                Traceback (most recent call last)
+Cell In[12], line 9
+      5     mes_ = meses_[int(m)-1]
+      6     mes_cod1=meses_m[int(m)-1]
+      7     mes_cod=meses_cod[int(m)-1]
+      8     print(mes + ' ' + anio)
+----> 9     main(mes, anio)
+
+Cell In[9], line 19, in main(mes, anio)
+     15 
+     16     potencias=sheet1.copy()
+     17 
+     18     primerafila=potencias[potencias[4]=="Empresa"].index[0]
+---> 19     ultimafila=potencias[potencias[7]=="TOTAL"].index[0]
+     20     potencias=potencias.iloc[primerafila+2:ultimafila+1,4:13]
+     21 
+     22 
+
+File ~\PyCharmMiscProject\.venv\Lib\site-packages\pandas\core\indexes\range.py:1289, in RangeIndex.__getitem__(self, key)
+   1287         return self._range[new_key]
+   1288     except IndexError as err:
+-> 1289         raise IndexError(
+   1290             f"index {key} is out of bounds for axis 0 with size {len(self)}"
+   1291         ) from err
+   1292 elif is_scalar(key):
+   1293     raise IndexError(
+   1294         "only integers, slices (`:`), "
+   1295         "ellipsis (`...`), numpy.newaxis (`None`) "
+   1296         "and integer or boolean "
+   1297         "arrays are valid indices"
+   1298     )
+
+IndexError: index 0 is out of bounds for axis 0 with size 0
